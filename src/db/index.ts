@@ -1,4 +1,6 @@
-import {JSONFile, Low} from 'lowdb'
+import { join, dirname } from 'path'
+import { LowSync, JSONFileSync } from 'lowdb'
+import { fileURLToPath } from 'url'
 
 type Data = {
   characters: {
@@ -15,20 +17,14 @@ type WordInfo = {
   url: string
 }
 
-const db = new Low<Data>(new JSONFile('../store/db.json'))
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const dbFile = join(__dirname, '../../store/db.json')
+const db = new LowSync<Data>(new JSONFileSync(dbFile))
 
 db.read()
 
-db.data.characters = {
-  A: {
-    words: []
-  }
-}
-
-db.write()
-
 class Character {
-  constructor(private info: CharacterInfo) {
+  constructor(private key, private info: CharacterInfo) {
 
   }
 
@@ -42,9 +38,15 @@ class Character {
 }
 
 function getCharacter(char: string): Character {
-  const info = db.data.characters[char.toLowerCase()]
+  const charKey = char.toUpperCase()
+  const info = db.data.characters[charKey]
 
-  return new Character(info)
+  if (info) {
+    return new Character(charKey, info)
+  }
+
+  // Create character
+  return new Character(charKey, {words: []})
 }
 
 export {getCharacter}

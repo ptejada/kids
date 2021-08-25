@@ -1,1 +1,9 @@
-{}
+{
+  "characters": {
+    "A": {
+      "words": {
+        "apple": []
+      }
+    }
+  }
+}

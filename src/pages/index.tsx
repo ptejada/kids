@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import Layout from '../components/Layout'
 import {useEffect, useRef, useState} from 'react'
 import keyboardKey from 'keyboard-key'
+import CharacterIcon from '../components/CharacterIcon'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -63,7 +64,7 @@ export default function Home() {
       <Container maxWidth='sm' className={classes.root}>
         <Grid container spacing={0} direction='column' alignItems='center' justify='center' className={classes.column}>
           <Grid item>
-            <Typography variant='body1' className={classes.display}>{letter}</Typography>
+            <CharacterIcon character={letter}/>
           </Grid>
         </Grid>
       </Container>
